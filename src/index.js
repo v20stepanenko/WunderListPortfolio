@@ -5,13 +5,14 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 
 //Instruments
+import AddToDo from './components/AddToDo'
 import todoApp from './reducers';
 
 const store = createStore(todoApp);
 
 render(
     <Provider store = { store }>
-        
+        <AddToDo />
     </Provider>,
     document.getElementById('root')
 );

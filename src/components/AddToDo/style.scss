@@ -1,0 +1,13 @@
+
+.hideStar{
+    opacity: 0;
+    transition: opacity 1s;
+}
+.showStar{
+    opacity: 1;
+    transition: opacity 1s;
+}
+
+.importantTask{
+    color: red;
+}
