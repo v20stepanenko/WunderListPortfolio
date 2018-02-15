@@ -1,20 +1,23 @@
 
-.hide{
-    opacity: 0;
-    transition: opacity 1s;
-}
-.show{
-    opacity: 1;
-    transition: opacity 1s;
-}
-
-.importantTask{
-    color: red;
-}
-
 .metaTask{
     display: inline-block;
     & > div:first-of-type{
         display: inline-block;
     }
 }
+
+.hide{
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 1s, display 5s;
+}
+.show{
+    display: inline-block;
+    opacity: 1;
+    transition: opacity 1s, display 5s;
+}
+
+.importantTask{
+    color: red;
+}
+
