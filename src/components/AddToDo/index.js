@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Styles from './style.scss';
+import Calendar from '../Calendar';
 export default class componentName extends Component {
 
     constructor(){
@@ -9,7 +10,9 @@ export default class componentName extends Component {
 
     state = { 
      focusInput: false,
-     importantTask: false
+     importantTask: false,
+     showCalendar: false,
+     openAssign: false
     }
 
     toFocusInput = () => {
@@ -18,22 +21,26 @@ export default class componentName extends Component {
 
     addTask = (e) => {
         e.preventDefault();
-
     }
 
     focusInput = () => {
         this.setState({focusInput: true})
     }
 
-    blurInput = () => {
+    blurForm = () => {
+        console.log('blurInput')
         this.setState({focusInput: false})
     }
 
     getStarClassName = () => {
-        const { focusInput, importantTask } = this.state;
-        const show = focusInput? Styles.showStar: Styles.hideStar;
+        const { importantTask } = this.state;
         const important = importantTask? Styles.importantTask: '';
-        return `${show} ${important}`;
+        return important;
+    }
+
+    getToggleClass = () => {
+        const { focusInput } = this.state;
+        return focusInput? Styles.show: Styles.hide;        
     }
 
     toggleMarkTask = () => {
@@ -41,12 +48,37 @@ export default class componentName extends Component {
         this.setState({importantTask: !importantTask});
     }
 
+    openAssign = () => {
+        this.setState({openAssign: true});
+    }
+
+    classNameAssignDate = () => {
+        const {openAssign} = this.state;
+        if(openAssign){
+            return Styles.show;
+        }
+        return Styles.hide;
+    }
+
+    blurCalendar = () => {
+        console.log('Blur')
+        this.setState({openAssign: false});
+    }
+
+    focusCalendar = () => {
+        console.log('focus calendar');
+    }
+
     render() {
         return (
-            <form className = { Styles.addTask } onClick = {this.toFocusInput} onSubmit = {this.addTask} >
-                <button type = 'button'>+</button>
-                <input placeholder = 'Добавить сегодняшнюю задачу в папку "Входящие"...' ref = {(node) => this.inputAdd = node} onFocus = {this.focusInput} onBlur = {this.blurInput} />
-                <span className = { this.getStarClassName() } onClick = { this.toggleMarkTask } >ЗВЕЗДОЧКА</span>
+            <form className = { Styles.addTask } onBlur = {this.blurForm} onSubmit = {this.addTask} >
+                <button type = 'button' onClick = {this.toFocusInput}>+</button>
+                <input placeholder = 'Добавить сегодняшнюю задачу в папку "Входящие"...' ref = {(node) => this.inputAdd = node} onClick = {this.toFocusInput} onFocus = {this.focusInput}  />
+                <div className = {`${Styles.metaTask} ${this.getToggleClass()}`} >
+                  <span className = { this.getStarClassName() } onClick = { this.toggleMarkTask } >ЗВЕЗДОЧКА</span>
+                  <div className = {Styles.calendar} onClick = { this.openAssign} onFocus = {this.focusCalendar} onBlur = {this.blurCalendar}>Calendar
+                    <div className = {this.classNameAssignDate()}  ><Calendar /></div></div> 
+                </div>
             </form>
         )
     }

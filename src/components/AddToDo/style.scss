@@ -1,13 +1,20 @@
 
-.hideStar{
+.hide{
     opacity: 0;
     transition: opacity 1s;
 }
-.showStar{
+.show{
     opacity: 1;
     transition: opacity 1s;
 }
 
 .importantTask{
     color: red;
+}
+
+.metaTask{
+    display: inline-block;
+    & > div:first-of-type{
+        display: inline-block;
+    }
 }
