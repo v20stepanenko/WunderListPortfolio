@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Styles from './style.scss';
 import Calendar from '../Calendar';
+import {DUE_DATE, REMINDER} from './helper'
 export default class AddToDo extends Component {
 
     constructor(){
@@ -15,7 +16,10 @@ export default class AddToDo extends Component {
          input: false,
          star: false
      },
-     importantTask: false
+     importantTask: false,
+     action: DUE_DATE,
+     dueDate: {},
+     reminder: {}
     }
 
     toFocusInput = () => {
@@ -76,12 +80,52 @@ export default class AddToDo extends Component {
         this.setState({importantTask: !importantTask});
     }
 
-    classNameAssignDate = () => {
+    togleAssingBlock = () => {
         const {calendar} = this.state.focusForm;
         if(calendar){
             return Styles.show;
         }
         return Styles.hide;
+    }
+
+    getFooterAssign = () => {
+        const { action } = this.state
+        switch(action){
+            case DUE_DATE: {
+            return(
+                <div>
+                    <select>
+                        <option>Не повторять</option>
+                        <option>Повторять каждый день</option>
+                        <option>Повторять каждую неделю</option>
+                        <option>Повторять каждый месяц</option>
+                        <option>Повторять каждый год</option>
+                    </select>
+                        <button> Удалить дату выполнения</button>
+                </div>
+            )
+        }
+            case REMINDER: {
+                return(
+                    <div>
+                        <input type='number' placeholder='24' /> : <input type='number' placeholder='59' />
+                        <button>Удалить напоминание</button>
+                    </div>
+                )
+                
+            }
+            default: {
+             console.error('Error in component AddToDo, getFooterAssign method, no case')       
+            }
+        }
+    }
+
+    viewDueDate = () => {
+        this.setState({action: DUE_DATE})
+    }
+
+    viewReminder = () => {
+        this.setState({action: REMINDER})        
     }
 
     render() {
@@ -97,9 +141,12 @@ export default class AddToDo extends Component {
                 <div className = {`${Styles.metaTask} ${this.getToggleClass()}`} >
                     <span tabIndex='99' className = { this.getStarClassName() } onClick = {this.toggleMarkTask}  onFocus = {this.focusStar} onBlur = {this.blurStar} >ЗВЕЗДОЧКА</span>
                     <div className = {Styles.calendar} tabIndex='100' onFocus = { this.focusCalendar } onBlur = {this.blurCalendar}>Calendar
-                        <button>Дата выполнения</button>
-                        <button>Напомнить</button>
-                        <div className = {this.classNameAssignDate()} ref = {(node) => {this.calendar = node}} ><Calendar infoAssign = { this.getInfoAssign } /></div>
+                        <div className = {this.togleAssingBlock()} ref = {(node) => {this.calendar = node}} >
+                            <button onClick = {this.viewDueDate}>Дата выполнения</button>
+                            <button onClick = {this.viewReminder}>Напомнить</button>
+                            <Calendar infoAssign = { this.getInfoAssign } />
+                            {this.getFooterAssign()}
+                        </div>
                     </div>               
                 </div>
             </form>
