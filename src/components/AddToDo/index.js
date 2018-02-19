@@ -92,11 +92,14 @@ export default class AddToDo extends Component {
                     ref = {(node) => this.inputAdd = node} 
                     onBlur = {this.blurInput} 
                     onClick = {this.toFocusInput} 
-                    onFocus = {this.focusInput}  /> {/*input END*/}
+                    onFocus = {this.focusInput}  /> 
+                    {/*input END*/}
                 <div className = {`${Styles.metaTask} ${this.getToggleClass()}`} >
                     <span tabIndex='99' className = { this.getStarClassName() } onClick = {this.toggleMarkTask}  onFocus = {this.focusStar} onBlur = {this.blurStar} >ЗВЕЗДОЧКА</span>
                     <div className = {Styles.calendar} tabIndex='100' onFocus = { this.focusCalendar } onBlur = {this.blurCalendar}>Calendar
-                        <div className = {this.classNameAssignDate()} ref = {(node) => {this.calendar = node}} ><Calendar /></div>
+                        <button>Дата выполнения</button>
+                        <button>Напомнить</button>
+                        <div className = {this.classNameAssignDate()} ref = {(node) => {this.calendar = node}} ><Calendar infoAssign = { this.getInfoAssign } /></div>
                     </div>               
                 </div>
             </form>
